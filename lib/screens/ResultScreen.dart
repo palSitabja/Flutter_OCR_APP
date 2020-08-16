@@ -113,7 +113,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           "Can't extract text from this Image\nUnsupported language or wrong image",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
-                              fontSize: 17.0, fontWeight: FontWeight.w600),
+                              fontSize: 17.0, fontWeight: FontWeight.w600,color: Colors.red),
                         ),
                         SizedBox(
                           height: height * 0.1,
