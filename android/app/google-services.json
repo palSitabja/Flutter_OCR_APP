@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "521176302960",
+    "firebase_url": "https://ocr-app-ec613.firebaseio.com",
+    "project_id": "ocr-app-ec613",
+    "storage_bucket": "ocr-app-ec613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521176302960:android:929db7d1bced1928f3bbb5",
+        "android_client_info": {
+          "package_name": "com.palSitabja.ocr_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521176302960-70b3mjgunemt04cd9r19f8r1j42le3se.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6H33eXpSIe0C8mgKTXidfAIjWOs87Jxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521176302960-70b3mjgunemt04cd9r19f8r1j42le3se.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
