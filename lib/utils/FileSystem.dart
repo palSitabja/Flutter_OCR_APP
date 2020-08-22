@@ -8,13 +8,13 @@ class Storage {
     return directory.path;
   }
 
-  static Future<File> get _localFile async {
+  static Future<File> setFileName(String fileName) async {
     final path = await _localPath;
-    return File('$path/ocr.txt');
+    return File('$path/$fileName.txt');
   }
 
-  static Future writeText(String text) async {
-    final file = await _localFile;
+  static Future writeText(String text,String fileName) async {
+    final file = await setFileName(fileName);
     file.writeAsString(text);
   }
 }

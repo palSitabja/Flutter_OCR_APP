@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ocr_app/screens/BottomSheetScreen.dart';
 import 'package:ocr_app/utils/FileSystem.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -36,13 +37,22 @@ class _ResultScreenState extends State<ResultScreen> {
       });
     }
 
-    saveTotext() {
-      Storage.writeText(widget.text);
+    saveTotext(String fileName) {
+      Storage.writeText(widget.text,fileName);
+      print(fileName);
       setState(() {
         saveIcon = Icons.check;
         saveColor = Colors.green;
         saveText = "Saved";
       });
+    }
+
+    triggerBottomSheet() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) => BottomSheetScreen(
+                saveFile: saveTotext,
+              ));
     }
 
     return MaterialApp(
@@ -67,78 +77,82 @@ class _ResultScreenState extends State<ResultScreen> {
                 Navigator.pop(context);
               }),
         ),
-        body: Column(
-          children: <Widget>[
-            Center(
-              child: widget.text != ''
-                  ? Container(
-                      margin: EdgeInsets.only(top: 10.0, bottom: height * 0.05),
-                      padding: EdgeInsets.all(20.0),
-                      //color: Colors.amber,
-                      height: height * 0.65,
-                      width: width * 0.8,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 10.0,
-                                color: Colors.grey[300],
-                                offset: Offset(0, 5.0))
-                          ]
-                          //border: Border.all(),
-                          //borderRadius: BorderRadius.circular(20.0)
+        body: SingleChildScrollView(
+                  child: Column(
+            children: <Widget>[
+              Center(
+                child: widget.text != ''
+                    ? Container(
+                        margin: EdgeInsets.only(top: 10.0, bottom: height * 0.05),
+                        padding: EdgeInsets.all(20.0),
+                        //color: Colors.amber,
+                        height: height * 0.65,
+                        width: width * 0.8,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 10.0,
+                                  color: Colors.grey[300],
+                                  offset: Offset(0, 5.0))
+                            ]
+                            //border: Border.all(),
+                            //borderRadius: BorderRadius.circular(20.0)
+                            ),
+                        child: SingleChildScrollView(
+                          child: SelectableText(
+                            widget.text,
+                            style: GoogleFonts.poppins(
+                                fontSize: 15.0, letterSpacing: 2.0
+                                // fontWeight: FontWeight.bold
+                                ),
                           ),
-                      child: SingleChildScrollView(
-                        child: SelectableText(
-                          widget.text,
-                          style: GoogleFonts.poppins(
-                              fontSize: 15.0, letterSpacing: 2.0
-                              // fontWeight: FontWeight.bold
-                              ),
                         ),
+                      )
+                    : Column(
+                        children: <Widget>[
+                          Container(
+                            width: width * 0.8,
+                            height: height * 0.5,
+                            child: SvgPicture.asset(
+                              'assets/images/error.svg',
+                              //  height: height * 0.55,
+                              //  width: width * 0.45,
+                            ),
+                          ),
+                          Text(
+                            "Can't extract text from this Image\nUnsupported language or wrong image",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: height * 0.1,
+                          ),
+                        ],
                       ),
-                    )
-                  : Column(
-                      children: <Widget>[
-                        Container(
-                          width: width * 0.8,
-                          height: height * 0.5,
-                          child: SvgPicture.asset(
-                            'assets/images/error.svg',
-                            //  height: height * 0.55,
-                            //  width: width * 0.45,
-                          ),
-                        ),
-                        Text(
-                          "Can't extract text from this Image\nUnsupported language or wrong image",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              fontSize: 17.0, fontWeight: FontWeight.w600,color: Colors.red),
-                        ),
-                        SizedBox(
-                          height: height * 0.1,
-                        ),
-                      ],
-                    ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CircularButton(
-                  icon: saveIcon,
-                  iconLabel: saveText,
-                  onPress: saveTotext,
-                  iconColor: saveColor,
-                ),
-                CircularButton(
-                  icon: Icons.refresh,
-                  iconLabel: 'Retake',
-                  onPress: reTakeImage,
-                  iconColor: Color(0xff6c63ff),
-                )
-              ],
-            )
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  CircularButton(
+                    icon: saveIcon,
+                    iconLabel: saveText,
+                    onPress: triggerBottomSheet,
+                    iconColor: saveColor,
+                  ),
+                  CircularButton(
+                    icon: Icons.refresh,
+                    iconLabel: 'Retake',
+                    onPress: reTakeImage,
+                    iconColor: Color(0xff6c63ff),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       )),
     );
